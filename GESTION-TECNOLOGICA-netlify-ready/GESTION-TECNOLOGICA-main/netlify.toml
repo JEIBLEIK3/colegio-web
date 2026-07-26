@@ -1,7 +1,6 @@
 [build]
-  base = "colegio-web"
-  command = "npm install && npm run build"
-  publish = "dist/colegio-web/browser"
+  command = "cd colegio-web && npm install && npm run build"
+  publish = "colegio-web/dist/colegio-web/browser"
 
 [[redirects]]
   from = "/*"
