@@ -1,0 +1,57 @@
+<mat-sidenav-container class="shell">
+  <mat-sidenav
+    #sidenav
+    [mode]="esMovil() ? 'over' : 'side'"
+    [opened]="!esMovil()"
+    class="shell-sidenav"
+  >
+    <div class="brand">
+      <mat-icon>school</mat-icon>
+      <span>Sistema Escolar</span>
+    </div>
+
+    <mat-nav-list>
+      @for (item of menu(); track item.ruta) {
+        <a mat-list-item [routerLink]="item.ruta" routerLinkActive="active-link">
+          <mat-icon matListItemIcon>{{ item.icono }}</mat-icon>
+          <span matListItemTitle>{{ item.etiqueta }}</span>
+        </a>
+      }
+    </mat-nav-list>
+
+    <div class="sidenav-footer">
+      <mat-icon>cloud_queue</mat-icon>
+      <span>Infraestructura AWS (modo demo)</span>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar class="shell-toolbar" color="primary">
+      @if (esMovil()) {
+        <button mat-icon-button (click)="sidenav.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+      }
+      <span class="spacer"></span>
+
+      <button mat-button [matMenuTriggerFor]="menuUsuario" class="user-btn">
+        <mat-icon>account_circle</mat-icon>
+        <span class="user-name">{{ usuario()?.nombre }}</span>
+      </button>
+      <mat-menu #menuUsuario="matMenu">
+        <div class="user-menu-header">
+          <strong>{{ usuario()?.nombre }}</strong>
+          <small>{{ usuario() ? etiquetaRol[usuario()!.rol] : '' }}</small>
+        </div>
+        <button mat-menu-item (click)="cerrarSesion()">
+          <mat-icon>logout</mat-icon>
+          <span>Cerrar sesión</span>
+        </button>
+      </mat-menu>
+    </mat-toolbar>
+
+    <main class="shell-main">
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

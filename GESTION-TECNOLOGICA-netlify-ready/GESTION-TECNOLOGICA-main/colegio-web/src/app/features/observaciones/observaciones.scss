@@ -1,0 +1,43 @@
+mat-card {
+  padding: 1rem;
+}
+
+.observaciones-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.observacion-card {
+  position: relative;
+}
+
+.observacion-cabecera {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.observacion-fecha {
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 0.8rem;
+}
+
+.observacion-eliminar {
+  margin-left: auto;
+}
+
+.observacion-estudiante {
+  margin: 0.4rem 0 0.2rem;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.observacion-compromiso {
+  color: #92400e;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}

@@ -1,0 +1,242 @@
+// Include theming for Angular Material with `mat.theme()`.
+// This Sass mixin will define CSS variables that are used for styling Angular Material
+// components according to the Material 3 design spec.
+// Learn more about theming and how to use it for your application's
+// custom components at https://material.angular.dev/guide/theming
+@use '@angular/material' as mat;
+
+html {
+  height: 100%;
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
+}
+
+body {
+  // Default the application to a light color theme. This can be changed to
+  // `dark` to enable the dark color theme, or to `light dark` to defer to the
+  // user's system settings.
+  color-scheme: light;
+
+  // Set a default background, font and text colors for the application using
+  // Angular Material's system-level CSS variables. Learn more about these
+  // variables at https://material.angular.dev/guide/system-variables
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+
+  // Reset the user agent margin.
+  margin: 0;
+  height: 100%;
+}
+/* You can add global styles to this file, and also import other style files */
+
+* {
+  box-sizing: border-box;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+
+  h1 {
+    margin: 0;
+    font-size: 1.6rem;
+  }
+
+  h2 {
+    margin: 0.5rem 0 0;
+    font-size: 1.1rem;
+  }
+}
+
+.page-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.page-filters {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.table-card {
+  overflow-x: auto;
+}
+
+table.mat-mdc-table {
+  width: 100%;
+}
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 1rem;
+}
+
+.kpi-card {
+  border-top: 4px solid transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+  padding: 1rem !important;
+
+  mat-icon {
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+  }
+
+  .kpi-valor {
+    font-size: 1.6rem;
+    font-weight: 700;
+  }
+
+  .kpi-etiqueta {
+    color: var(--mat-sys-on-surface-variant, rgba(0, 0, 0, 0.6));
+    font-size: 0.85rem;
+  }
+}
+
+.curso-grid,
+.accesos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.curso-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem !important;
+
+  p {
+    margin: 0.15rem 0 0;
+    font-size: 0.85rem;
+    color: rgba(0, 0, 0, 0.6);
+  }
+}
+
+.acceso-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: flex-start;
+  height: 48px;
+}
+
+.aws-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem !important;
+  background: linear-gradient(135deg, rgba(255, 153, 0, 0.08), rgba(27, 75, 145, 0.06));
+
+  mat-icon {
+    color: #ff9900;
+  }
+
+  p {
+    margin: 0.25rem 0 0;
+    font-size: 0.85rem;
+    color: rgba(0, 0, 0, 0.65);
+  }
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 2rem;
+  color: rgba(0, 0, 0, 0.5);
+
+  mat-icon {
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.chip-activa, .chip-pagado, .chip-presente,
+.chip-pendiente, .chip-tarde,
+.chip-retirada, .chip-vencido, .chip-ausente, .chip-negativa,
+.chip-graduado, .chip-positiva {
+  --mdc-chip-elevated-container-color: var(--chip-bg);
+  --mdc-chip-label-text-color: var(--chip-fg);
+  --mdc-chip-elevated-disabled-container-color: var(--chip-bg);
+  --mdc-chip-disabled-label-text-color: var(--chip-fg);
+  --mdc-chip-outline-color: transparent;
+  border: none !important;
+
+  .mdc-evolution-chip__text-label,
+  .mat-mdc-chip-action-label {
+    color: var(--chip-fg) !important;
+  }
+
+  &, .mdc-evolution-chip__cell, .mdc-evolution-chip__action, .mat-mdc-chip-action {
+    background-color: var(--chip-bg) !important;
+  }
+}
+
+.chip-activa, .chip-pagado, .chip-presente {
+  --chip-bg: #dcfce7;
+  --chip-fg: #166534;
+}
+
+.chip-pendiente, .chip-tarde {
+  --chip-bg: #fef3c7;
+  --chip-fg: #92400e;
+}
+
+.chip-retirada, .chip-vencido, .chip-ausente, .chip-negativa {
+  --chip-bg: #fee2e2;
+  --chip-fg: #991b1b;
+}
+
+.chip-graduado, .chip-positiva {
+  --chip-bg: #dbeafe;
+  --chip-fg: #1e40af;
+}
+
+.dialog-subtitle {
+  margin: -0.5rem 1.5rem 0;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 0.85rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(220px, 1fr));
+  gap: 0 1rem;
+  padding-top: 0.5rem !important;
+  min-width: min(640px, 80vw);
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  .span-2 {
+    grid-column: 1 / -1;
+  }
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+    min-width: unset;
+  }
+}

@@ -1,0 +1,69 @@
+<div class="page">
+  <h1>Notas</h1>
+
+  <mat-card>
+    <div class="page-filters">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Curso</mat-label>
+        <mat-select [value]="cursoSeleccionado()" (selectionChange)="cursoSeleccionado.set($event.value)">
+          @for (curso of cursosVisibles(); track curso.id) {
+            <mat-option [value]="curso.id">{{ curso.nombre }} - {{ curso.grado }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Asignatura</mat-label>
+        <mat-select [value]="asignaturaSeleccionada()" (selectionChange)="asignaturaSeleccionada.set($event.value)">
+          @for (asignatura of asignaturasVisibles(); track asignatura) {
+            <mat-option [value]="asignatura">{{ asignatura }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Periodo</mat-label>
+        <mat-select [value]="periodoSeleccionado()" (selectionChange)="periodoSeleccionado.set($event.value)">
+          @for (periodo of periodos; track periodo) {
+            <mat-option [value]="periodo">Periodo {{ periodo }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </mat-card>
+
+  <mat-card class="table-card">
+    @for (fila of filasEstudiantes(); track fila.estudiante.id) {
+      <div class="fila-notas">
+        <div class="fila-cabecera">
+          <span class="fila-nombre">{{ fila.estudiante.nombres }} {{ fila.estudiante.apellidos }}</span>
+          <span class="fila-promedio" [class.sin-nota]="fila.promedio === null">
+            {{ fila.promedio !== null ? fila.promedio.toFixed(2) : 'Sin notas' }}
+          </span>
+          @if (!esEstudiante()) {
+            <button mat-icon-button matTooltip="Agregar nota" (click)="agregarNota(fila.estudiante.id, fila.estudiante.nombres + ' ' + fila.estudiante.apellidos)">
+              <mat-icon>add_circle</mat-icon>
+            </button>
+          }
+        </div>
+        <div class="fila-chips">
+          @for (nota of fila.notas; track nota.id) {
+            <mat-chip [matTooltip]="nota.descripcion + ' · ' + nota.porcentaje + '%'" [removable]="!esEstudiante()" (removed)="eliminarNota(nota)">
+              {{ nota.descripcion }}: {{ nota.valor }}
+              @if (!esEstudiante()) {
+                <button matChipRemove><mat-icon>cancel</mat-icon></button>
+              }
+            </mat-chip>
+          } @empty {
+            <span class="sin-notas-texto">No hay notas registradas en este periodo.</span>
+          }
+        </div>
+      </div>
+    } @empty {
+      <div class="empty-state">
+        <mat-icon>grade</mat-icon>
+        <span>Selecciona un curso y una asignatura.</span>
+      </div>
+    }
+  </mat-card>
+</div>

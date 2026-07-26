@@ -1,0 +1,104 @@
+<h2 mat-dialog-title>{{ esEdicion ? 'Editar matrícula' : 'Nueva matrícula' }}</h2>
+
+<form [formGroup]="form" (ngSubmit)="guardar()">
+  <mat-dialog-content class="form-grid">
+    <mat-form-field appearance="outline">
+      <mat-label>Nombres</mat-label>
+      <input matInput formControlName="nombres" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Apellidos</mat-label>
+      <input matInput formControlName="apellidos" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Tipo de documento</mat-label>
+      <mat-select formControlName="tipoDocumento">
+        <mat-option value="TI">Tarjeta de Identidad</mat-option>
+        <mat-option value="RC">Registro Civil</mat-option>
+        <mat-option value="CC">Cédula de Ciudadanía</mat-option>
+        <mat-option value="CE">Cédula Extranjería</mat-option>
+        <mat-option value="Pasaporte">Pasaporte</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Número de documento</mat-label>
+      <input matInput formControlName="documento" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha de nacimiento</mat-label>
+      <input matInput type="date" formControlName="fechaNacimiento" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Género</mat-label>
+      <mat-select formControlName="genero">
+        <mat-option value="M">Masculino</mat-option>
+        <mat-option value="F">Femenino</mat-option>
+        <mat-option value="Otro">Otro</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Dirección</mat-label>
+      <input matInput formControlName="direccion" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Teléfono</mat-label>
+      <input matInput formControlName="telefono" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Correo del estudiante</mat-label>
+      <input matInput formControlName="correo" type="email" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Curso</mat-label>
+      <mat-select formControlName="cursoId">
+        @for (curso of data.cursos; track curso.id) {
+          <mat-option [value]="curso.id">{{ curso.nombre }} - {{ curso.grado }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Estado de matrícula</mat-label>
+      <mat-select formControlName="estadoMatricula">
+        <mat-option value="Activa">Activa</mat-option>
+        <mat-option value="Pendiente">Pendiente</mat-option>
+        <mat-option value="Retirada">Retirada</mat-option>
+        <mat-option value="Graduado">Graduado</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="span-2">
+      <mat-label>Nombre del acudiente</mat-label>
+      <input matInput formControlName="acudienteNombre" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Teléfono del acudiente</mat-label>
+      <input matInput formControlName="acudienteTelefono" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Correo del acudiente</mat-label>
+      <input matInput formControlName="acudienteCorreo" type="email" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="span-2">
+      <mat-label>Observaciones médicas / alergias</mat-label>
+      <textarea matInput formControlName="observacionesMedicas" rows="2"></textarea>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="cancelar()">Cancelar</button>
+    <button mat-flat-button color="primary" type="submit">Guardar</button>
+  </mat-dialog-actions>
+</form>

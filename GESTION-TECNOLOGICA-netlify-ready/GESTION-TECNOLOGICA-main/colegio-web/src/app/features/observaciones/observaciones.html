@@ -1,0 +1,48 @@
+<div class="page">
+  <div class="page-toolbar">
+    <h1>Observaciones</h1>
+    <button mat-flat-button color="primary" (click)="agregarObservacion()">
+      <mat-icon>add_comment</mat-icon>
+      Nueva observación
+    </button>
+  </div>
+
+  <mat-card>
+    <div class="page-filters">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Curso</mat-label>
+        <mat-select [value]="filtroCurso()" (selectionChange)="filtroCurso.set($event.value)">
+          <mat-option value="todos">Todos mis cursos</mat-option>
+          @for (curso of cursosVisibles(); track curso.id) {
+            <mat-option [value]="curso.id">{{ curso.nombre }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </mat-card>
+
+  <div class="observaciones-lista">
+    @for (o of observacionesFiltradas(); track o.id) {
+      <mat-card class="observacion-card">
+        <div class="observacion-cabecera">
+          <mat-chip [class]="claseChip(o.tipo)">{{ o.tipo }}</mat-chip>
+          <strong>{{ o.titulo }}</strong>
+          <span class="observacion-fecha">{{ o.fecha }}</span>
+          <button mat-icon-button matTooltip="Eliminar" class="observacion-eliminar" (click)="eliminar(o)">
+            <mat-icon>delete_outline</mat-icon>
+          </button>
+        </div>
+        <p class="observacion-estudiante">{{ nombreEstudiante(o.estudianteId) }}</p>
+        <p>{{ o.descripcion }}</p>
+        @if (o.compromiso) {
+          <p class="observacion-compromiso"><mat-icon inline>flag</mat-icon> Compromiso: {{ o.compromiso }}</p>
+        }
+      </mat-card>
+    } @empty {
+      <div class="empty-state">
+        <mat-icon>chat_bubble_outline</mat-icon>
+        <span>No hay observaciones registradas.</span>
+      </div>
+    }
+  </div>
+</div>

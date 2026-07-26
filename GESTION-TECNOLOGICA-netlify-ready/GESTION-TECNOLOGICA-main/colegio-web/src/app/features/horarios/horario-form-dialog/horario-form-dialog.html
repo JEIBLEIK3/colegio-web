@@ -1,0 +1,48 @@
+<h2 mat-dialog-title>Nuevo bloque de horario</h2>
+
+<form [formGroup]="form" (ngSubmit)="guardar()">
+  <mat-dialog-content class="form-grid">
+    <mat-form-field appearance="outline">
+      <mat-label>Día</mat-label>
+      <mat-select formControlName="dia">
+        @for (dia of dias; track dia) {
+          <mat-option [value]="dia">{{ dia }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Aula</mat-label>
+      <input matInput formControlName="aula" placeholder="101" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Hora inicio</mat-label>
+      <input matInput type="time" formControlName="horaInicio" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Hora fin</mat-label>
+      <input matInput type="time" formControlName="horaFin" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="span-2">
+      <mat-label>Asignatura</mat-label>
+      <input matInput formControlName="asignatura" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="span-2">
+      <mat-label>Profesor</mat-label>
+      <mat-select formControlName="profesorId">
+        @for (p of data.profesores; track p.id) {
+          <mat-option [value]="p.id">{{ p.nombres }} {{ p.apellidos }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="cancelar()">Cancelar</button>
+    <button mat-flat-button color="primary" type="submit">Guardar</button>
+  </mat-dialog-actions>
+</form>

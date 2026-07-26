@@ -1,0 +1,77 @@
+<div class="page">
+  <h1>Bienvenido, {{ usuario()?.nombre }}</h1>
+
+  @if (rol() === 'admin') {
+    <div class="kpi-grid">
+      @for (kpi of kpisAdmin(); track kpi.etiqueta) {
+        <mat-card class="kpi-card" [style.borderTopColor]="kpi.color">
+          <mat-icon [style.color]="kpi.color">{{ kpi.icono }}</mat-icon>
+          <div class="kpi-valor">{{ kpi.valor }}</div>
+          <div class="kpi-etiqueta">{{ kpi.etiqueta }}</div>
+        </mat-card>
+      }
+    </div>
+
+    <mat-card class="aws-card">
+      <mat-icon>cloud</mat-icon>
+      <div>
+        <strong>Infraestructura en la nube (AWS)</strong>
+        <p>Este panel está preparado para operar sobre Cognito, API Gateway, Lambda, DynamoDB y S3. Actualmente corre en modo demostración con datos simulados localmente.</p>
+      </div>
+    </mat-card>
+  }
+
+  @if (rol() === 'profesor') {
+    <h2>Mis cursos</h2>
+    <div class="curso-grid">
+      @for (curso of misCursos(); track curso.id) {
+        <mat-card class="curso-card">
+          <mat-icon>meeting_room</mat-icon>
+          <div>
+            <strong>{{ curso.nombre }}</strong>
+            <p>{{ curso.grado }} · Jornada {{ curso.jornada }}</p>
+          </div>
+        </mat-card>
+      } @empty {
+        <p>No tienes cursos asignados.</p>
+      }
+    </div>
+  }
+
+  @if (rol() === 'estudiante') {
+    @if (resumenEstudiante(); as r) {
+      <div class="kpi-grid">
+        <mat-card class="kpi-card" style="border-top-color:#1b4b91">
+          <mat-icon style="color:#1b4b91">meeting_room</mat-icon>
+          <div class="kpi-valor">{{ r.curso?.nombre }}</div>
+          <div class="kpi-etiqueta">Curso actual</div>
+        </mat-card>
+        <mat-card class="kpi-card" style="border-top-color:#15803d">
+          <mat-icon style="color:#15803d">grade</mat-icon>
+          <div class="kpi-valor">{{ r.promedio }}</div>
+          <div class="kpi-etiqueta">Promedio general</div>
+        </mat-card>
+        <mat-card class="kpi-card" style="border-top-color:#b45309">
+          <mat-icon style="color:#b45309">payments</mat-icon>
+          <div class="kpi-valor">{{ r.pagosPendientes }}</div>
+          <div class="kpi-etiqueta">Pagos pendientes</div>
+        </mat-card>
+        <mat-card class="kpi-card" style="border-top-color:#6d28d9">
+          <mat-icon style="color:#6d28d9">chat</mat-icon>
+          <div class="kpi-valor">{{ r.observaciones }}</div>
+          <div class="kpi-etiqueta">Observaciones registradas</div>
+        </mat-card>
+      </div>
+    }
+  }
+
+  <h2>Accesos rápidos</h2>
+  <div class="accesos-grid">
+    @for (acceso of accesosRapidos; track acceso.ruta) {
+      <a mat-stroked-button [routerLink]="acceso.ruta" class="acceso-btn">
+        <mat-icon>{{ acceso.icono }}</mat-icon>
+        {{ acceso.etiqueta }}
+      </a>
+    }
+  </div>
+</div>

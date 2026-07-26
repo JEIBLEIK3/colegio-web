@@ -1,0 +1,25 @@
+mat-card {
+  padding: 1rem;
+}
+
+.fila-asistencia {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  flex-wrap: wrap;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.fila-nombre {
+  flex: 1 1 220px;
+  font-weight: 500;
+}
+
+.fila-observacion {
+  flex: 1 1 220px;
+}

@@ -1,0 +1,94 @@
+<div class="page">
+  <h1>Boletines</h1>
+
+  <mat-card class="no-print">
+    <div class="page-filters">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Estudiante</mat-label>
+        <mat-select [value]="estudianteSeleccionado()" (selectionChange)="estudianteSeleccionado.set($event.value)">
+          @for (e of estudiantesVisibles(); track e.id) {
+            <mat-option [value]="e.id">{{ e.nombres }} {{ e.apellidos }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Periodo</mat-label>
+        <mat-select [value]="periodoSeleccionado()" (selectionChange)="periodoSeleccionado.set($event.value)">
+          @for (p of periodos; track p) {
+            <mat-option [value]="p">Periodo {{ p }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-flat-button color="primary" (click)="generar()">
+        <mat-icon>summarize</mat-icon>
+        Generar boletín
+      </button>
+
+      @if (boletin()) {
+        <button mat-stroked-button (click)="imprimir()">
+          <mat-icon>print</mat-icon>
+          Imprimir / PDF
+        </button>
+      }
+    </div>
+  </mat-card>
+
+  @if (boletin(); as b) {
+    <mat-card class="boletin-card">
+      <div class="boletin-header">
+        <mat-icon class="boletin-logo">school</mat-icon>
+        <div>
+          <h2>Boletín académico</h2>
+          <p>Año lectivo {{ b.anioLectivo }} · Periodo {{ b.periodo }}</p>
+        </div>
+      </div>
+
+      <div class="boletin-datos">
+        <div><strong>Estudiante:</strong> {{ estudianteActual?.nombres }} {{ estudianteActual?.apellidos }}</div>
+        <div><strong>Documento:</strong> {{ estudianteActual?.tipoDocumento }} {{ estudianteActual?.documento }}</div>
+        <div><strong>Curso:</strong> {{ cursoActual?.nombre }} - {{ cursoActual?.grado }}</div>
+      </div>
+
+      <table mat-table [dataSource]="b.promedioPorAsignatura" class="boletin-tabla">
+        <ng-container matColumnDef="asignatura">
+          <th mat-header-cell *matHeaderCellDef>Asignatura</th>
+          <td mat-cell *matCellDef="let a">{{ a.asignatura }}</td>
+        </ng-container>
+        <ng-container matColumnDef="promedio">
+          <th mat-header-cell *matHeaderCellDef>Promedio</th>
+          <td mat-cell *matCellDef="let a">{{ a.promedio.toFixed(2) }}</td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columnasAsignaturas"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnasAsignaturas;"></tr>
+      </table>
+
+      @if (b.promedioPorAsignatura.length === 0) {
+        <p class="sin-datos">No hay notas registradas para este periodo.</p>
+      }
+
+      <div class="boletin-resumen">
+        <div class="resumen-item">
+          <span class="resumen-valor">{{ b.promedioGeneral.toFixed(2) }}</span>
+          <span class="resumen-etiqueta">Promedio general</span>
+        </div>
+        <div class="resumen-item">
+          <span class="resumen-valor">{{ b.porcentajeAsistencia }}%</span>
+          <span class="resumen-etiqueta">Asistencia</span>
+        </div>
+        <div class="resumen-item">
+          <span class="resumen-valor">{{ b.totalObservaciones }}</span>
+          <span class="resumen-etiqueta">Observaciones</span>
+        </div>
+      </div>
+
+      <p class="boletin-pie">Generado el {{ b.fechaGeneracion | slice:0:10 }} · Documento simulado (en producción se almacenaría como PDF en Amazon S3)</p>
+    </mat-card>
+  } @else {
+    <div class="empty-state no-print">
+      <mat-icon>summarize</mat-icon>
+      <span>Selecciona un estudiante y un periodo, luego genera el boletín.</span>
+    </div>
+  }
+</div>

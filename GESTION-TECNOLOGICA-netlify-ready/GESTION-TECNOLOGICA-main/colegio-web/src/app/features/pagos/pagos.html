@@ -1,0 +1,89 @@
+<div class="page">
+  <div class="page-toolbar">
+    <h1>Pagos</h1>
+    @if (esAdmin()) {
+      <button mat-flat-button color="primary" (click)="registrarCobro()">
+        <mat-icon>add</mat-icon>
+        Registrar cobro
+      </button>
+    }
+  </div>
+
+  <div class="kpi-grid">
+    <mat-card class="kpi-card" style="border-top-color:#b45309">
+      <mat-icon style="color:#b45309">payments</mat-icon>
+      <div class="kpi-valor">{{ totalPendiente() | currency:'COP':'symbol-narrow':'1.0-0' }}</div>
+      <div class="kpi-etiqueta">Total pendiente / vencido</div>
+    </mat-card>
+  </div>
+
+  <mat-card>
+    <div class="page-filters">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Estado</mat-label>
+        <mat-select [value]="filtroEstado()" (selectionChange)="filtroEstado.set($event.value)">
+          <mat-option value="todos">Todos</mat-option>
+          <mat-option value="Pagado">Pagado</mat-option>
+          <mat-option value="Pendiente">Pendiente</mat-option>
+          <mat-option value="Vencido">Vencido</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </mat-card>
+
+  <mat-card class="table-card">
+    <table mat-table [dataSource]="pagosVisibles()">
+      @if (esAdmin()) {
+        <ng-container matColumnDef="estudiante">
+          <th mat-header-cell *matHeaderCellDef>Estudiante</th>
+          <td mat-cell *matCellDef="let p">{{ nombreEstudiante(p.estudianteId) }}</td>
+        </ng-container>
+      }
+
+      <ng-container matColumnDef="concepto">
+        <th mat-header-cell *matHeaderCellDef>Concepto</th>
+        <td mat-cell *matCellDef="let p">{{ p.concepto }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="monto">
+        <th mat-header-cell *matHeaderCellDef>Monto</th>
+        <td mat-cell *matCellDef="let p">{{ p.monto | currency:'COP':'symbol-narrow':'1.0-0' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="vencimiento">
+        <th mat-header-cell *matHeaderCellDef>Vence</th>
+        <td mat-cell *matCellDef="let p">{{ p.fechaVencimiento }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="estado">
+        <th mat-header-cell *matHeaderCellDef>Estado</th>
+        <td mat-cell *matCellDef="let p">
+          <mat-chip [class]="claseChip(p.estado)">{{ p.estado }}</mat-chip>
+        </td>
+      </ng-container>
+
+      @if (esAdmin()) {
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let p">
+            @if (p.estado !== 'Pagado') {
+              <button mat-icon-button matTooltip="Marcar como pagado" (click)="marcarComoPagado(p)">
+                <mat-icon>check_circle</mat-icon>
+              </button>
+            }
+          </td>
+        </ng-container>
+      }
+
+      <tr mat-header-row *matHeaderRowDef="columnas()"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnas();"></tr>
+    </table>
+
+    @if (pagosVisibles().length === 0) {
+      <div class="empty-state">
+        <mat-icon>payments</mat-icon>
+        <span>No hay pagos que coincidan con el filtro.</span>
+      </div>
+    }
+  </mat-card>
+</div>

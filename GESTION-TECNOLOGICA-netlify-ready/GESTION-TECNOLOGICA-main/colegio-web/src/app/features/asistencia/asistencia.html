@@ -1,0 +1,57 @@
+<div class="page">
+  <div class="page-toolbar">
+    <h1>Asistencia</h1>
+    <div class="page-filters">
+      <button mat-stroked-button (click)="marcarTodosPresentes()">
+        <mat-icon>done_all</mat-icon>
+        Marcar todos presentes
+      </button>
+      <button mat-flat-button color="primary" (click)="guardar()" [disabled]="guardando() || filas().length === 0">
+        <mat-icon>save</mat-icon>
+        Guardar asistencia
+      </button>
+    </div>
+  </div>
+
+  <mat-card>
+    <div class="page-filters">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Curso</mat-label>
+        <mat-select [value]="cursoSeleccionado()" (selectionChange)="cursoSeleccionado.set($event.value)">
+          @for (curso of cursosVisibles(); track curso.id) {
+            <mat-option [value]="curso.id">{{ curso.nombre }} - {{ curso.grado }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Fecha</mat-label>
+        <input matInput type="date" [value]="fechaSeleccionada()" (input)="fechaSeleccionada.set($any($event.target).value)" />
+      </mat-form-field>
+    </div>
+  </mat-card>
+
+  <mat-card class="table-card">
+    @for (fila of filas(); track fila.estudianteId) {
+      <div class="fila-asistencia">
+        <span class="fila-nombre">{{ fila.nombre }}</span>
+
+        <mat-button-toggle-group [value]="fila.estado" (change)="cambiarEstado(fila, $event.value)">
+          @for (estado of estados; track estado) {
+            <mat-button-toggle [value]="estado">{{ estado }}</mat-button-toggle>
+          }
+        </mat-button-toggle-group>
+
+        <mat-form-field appearance="outline" subscriptSizing="dynamic" class="fila-observacion">
+          <mat-label>Observación</mat-label>
+          <input matInput [value]="fila.observacion" (input)="cambiarObservacion(fila, $any($event.target).value)" />
+        </mat-form-field>
+      </div>
+    } @empty {
+      <div class="empty-state">
+        <mat-icon>group_off</mat-icon>
+        <span>Selecciona un curso con estudiantes activos.</span>
+      </div>
+    }
+  </mat-card>
+</div>
